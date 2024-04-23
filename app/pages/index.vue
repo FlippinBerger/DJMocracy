@@ -6,6 +6,7 @@
             <NuxtLink class='link' to='/party-search'>Find Party</NuxtLink>
             <NuxtLink class='link' to='/party-create'>Create Party</NuxtLink>
         </div>
+            <NuxtLink class='link' to='/parties/5'>Party</NuxtLink>
     </div>
 </template>
 

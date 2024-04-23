@@ -12,7 +12,7 @@ const createParty = () => {
     <div class='page'>
         <h1>Create Party</h1>
         <form class='form'>
-            <input v-model="partyName" />
+            <input v-model="partyName" placeholder='Event name' />
             <input type="datetime-local" v-model="partyTime" />
             <!-- TODO having it in here actually submits the form -->
             <!-- <button @click="createParty">Create</button> -->
@@ -24,6 +24,7 @@ const createParty = () => {
 <style scoped>
 .form {
     display: flex;
+    flex-direction: column;
     gap: 8px;
 }
 

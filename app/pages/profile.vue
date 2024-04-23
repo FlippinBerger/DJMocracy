@@ -1,18 +1,11 @@
 <script setup>
-const search = ref("");
-
-const clicked = () => {
-    console.log('search when clicked is', search.value);
-}
 </script>
 
 <template>
     <div class='page'>
-        <h1 class='title'>Find a Party</h1>
-        <div class='controls'>
-            <input type='search' v-model="search" placeholder='Person, Event name, or Location'/>
-            <button class='btn' @click="clicked">Search</button>
-        </div>
+        <h1 class='title'>Profile page</h1>
+
+        <!-- TODO fetch all the users parties here -->
     </div>
 </template>
 
