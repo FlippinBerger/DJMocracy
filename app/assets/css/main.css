@@ -1,0 +1,27 @@
+/* Utilize the entire web page */
+* {
+    margin: 0;
+    padding: 0;
+}
+
+html,
+body {
+    height: 100%;
+    background-color: black;
+}
+
+#__nuxt {
+    height: 100%;
+}
+
+h1 {
+    color: white;
+}
+
+.page {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}

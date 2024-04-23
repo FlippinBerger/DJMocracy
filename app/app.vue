@@ -9,5 +9,6 @@
 <style>
 .wrapper {
     padding: 24px 24px;
+    height: 100%;
 }
 </style>
