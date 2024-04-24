@@ -10,9 +10,11 @@
 
 <style scoped>
 header {
+    position: sticky;
     display: flex;
     justify-content: space-between;
     margin: 0 16px;
+    padding: 8px 0;
     font-size: 1.2em;
 }
 
@@ -23,6 +25,12 @@ header {
 .link {
     color: green;
     text-decoration: none;
+    padding: 4px;
+    border-radius: 4px;
+}
+
+.link:hover {
+    background-color: lightcyan;
 }
 
 p {
