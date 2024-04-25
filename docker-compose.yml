@@ -1,0 +1,14 @@
+volumes:
+  node_modules:
+services:
+  dj-app:
+    build:
+      context: ./vue-app
+        # TODO I think I only needs this when I specify a dev dockerfile
+        # dockerfile: ./app/Dockerfile
+    ports:
+      - "3000:3000"
+      - "24678:24678"
+    volumes:
+      - ./vue-app:/src
+      - ./vue-app/node_modules:/src/node_modules
