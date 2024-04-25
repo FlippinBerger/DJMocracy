@@ -1,3 +1,9 @@
+<script setup>
+    const {data: stuff} = await useFetch('http://localhost:1323/')
+    console.log('fetched stuff', stuff);
+    const s = ref(stuff);
+</script>
+
 <template>
     <div class='page'>
         <h1 class='title'>Welcome to DJmocracy</h1>
@@ -7,6 +13,8 @@
             <NuxtLink class='link' to='/party-create'>Create Party</NuxtLink>
         </div>
             <NuxtLink class='link' to='/parties/5'>Party</NuxtLink>
+
+        <h1 v-if="s">{{s}}</h1>
     </div>
 </template>
 
