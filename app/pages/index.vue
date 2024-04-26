@@ -1,6 +1,5 @@
 <script setup>
     const {data: stuff} = await useFetch('http://localhost:1323/')
-    console.log('fetched stuff', stuff);
     const s = ref(stuff);
 </script>
 

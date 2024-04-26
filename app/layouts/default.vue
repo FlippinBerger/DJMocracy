@@ -1,8 +1,12 @@
 <script setup>
-const user = ref('blah');
+import { useUsersStore } from '~/store/users';
+
+const store = useUsersStore();
+
+const { username } = storeToRefs(store);
 
 const signOut = () => {
-    user.value = undefined;
+    store.logOut();
 }
 </script>
 
@@ -10,9 +14,9 @@ const signOut = () => {
     <div class='layout'>
         <header>
             <NuxtLink class='link' to='/'>Home</NuxtLink>
+            <NuxtLink v-if="username !== ''" class='link' to='/profile'>{{username}}'s Profile</NuxtLink>
             <div class='right-nav'>
-                <NuxtLink class='link' to='/profile'>Profile</NuxtLink>
-                <NuxtLink v-if="user" class='link' to='/' @click="signOut">Sign Out</NuxtLink>
+                <NuxtLink v-if="username !== ''" class='link' to='/' @click="signOut">Sign Out</NuxtLink>
                 <NuxtLink v-else class='link' to='/login'>Sign In</NuxtLink>
             </div>
         </header>
