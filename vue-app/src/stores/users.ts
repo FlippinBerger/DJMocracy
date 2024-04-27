@@ -22,5 +22,5 @@ export const useUsersStore = defineStore({
     getters: {
         isLoggedIn: (state) => state.username !== '',
     },
-    // persist: true,
+    persist: true,
 })

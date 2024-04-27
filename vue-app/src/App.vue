@@ -1,11 +1,8 @@
 <script setup lang="ts">
-import { RouterLink, RouterView, useRouter } from 'vue-router';
+import { RouterView, useRouter } from 'vue-router';
 import { storeToRefs } from 'pinia';
 import { useUsersStore } from '@/stores/users';
-import Auth from './views/Auth.vue';
 import { watch } from 'vue';
-
-console.log('accessing the store in App view');
 
 const store = useUsersStore();
 const { isLoggedIn } = storeToRefs(store);
@@ -21,10 +18,14 @@ watch(
     },
     { immediate: true }
 )
+
 </script>
 
 <template>
     <div class='page'>
+        <header v-if="isLoggedIn">
+            <button class='btn' @click="store.logOut">Logout</button>
+        </header>
         <Suspense>
             <RouterView />
         </Suspense>
@@ -34,6 +35,26 @@ watch(
 <style scoped>
 h1 {
     color: white;
+}
+
+.btn {
+    padding: 6px;
+    font-size: 1.2em;
+    color: green;
+    background-color: transparent;
+    border-color: green;
+    border-style: double;
+    cursor: pointer;
+}
+
+.btn:hover {
+    border-style: solid;
+}
+
+header {
+    position: sticky;
+    margin: 8px 8px;
+    align-self: flex-end;
 }
 
 .page {

@@ -1,7 +1,7 @@
 package api
 
 import (
-    "fmt"
+    // "fmt"
     "net/http"
 	// "github.com/gorilla/sessions"
     // "time"
@@ -18,7 +18,6 @@ type Message struct {
 }
 
 func LogIn(c echo.Context) error {
-    fmt.Println("logging in")
     return c.JSON(http.StatusOK, Message{Msg: "logged in"})
 }
 

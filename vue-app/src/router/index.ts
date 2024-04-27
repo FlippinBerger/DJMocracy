@@ -19,16 +19,6 @@ const router = createRouter({
                 { path: '/register', component: Register, name: 'Register' },
             ]
         },
-        // {
-        //     path: '/login',
-        //     name: 'login',
-        //     component: Login
-        // },
-        // {
-        //     path: '/register',
-        //     name: 'register',
-        //     component: Register
-        // },
         {
             path: '/parties/:partyId',
             name: 'party',
@@ -56,12 +46,5 @@ const router = createRouter({
         },
     ]
 })
-
-// router.beforeEach((to, from) => {
-//     console.log('calling before each in router');
-//     if (!users.isLoggedIn && (to.name !== 'Login' && to.name !== 'Register')) {
-//         return {name: 'Auth'}
-//     }
-// })
 
 export default router
