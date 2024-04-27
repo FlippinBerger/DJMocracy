@@ -9,6 +9,7 @@
 
 <template>
     <div class='wrapper'>
+        <NuxtLoadingIndicator />
         <NuxtLayout>
             <NuxtPage />
         </NuxtLayout>
