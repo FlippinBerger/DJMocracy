@@ -1,4 +1,5 @@
 <script setup>
+import SongList from '@/components/SongList.vue'
 function getSongs() {
     return [
         {
@@ -21,23 +22,33 @@ function getSongs() {
 </script>
 
 <template>
+    <!-- <div class='page'> -->
     <div class='party'>
-        <h1>Welcome to party {{ $route.params.partyId }}</h1>
-        <SongList :songs="getSongs()" />
+        <h1 class='title'>Welcome to party {{ $route.params.partyId }}</h1>
+        <div class='list-wrapper'>
+            <SongList :songs="getSongs()" />
+        </div>
     </div>
+    <!-- </div> -->
 </template>
 
 <style scoped>
 .party {
     margin: 24px 16px;
+    align-self: flex-start;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
 }
 
-li {
-    color: white;
+.list-wrapper {
+    margin: 0 48px;
 }
-</style>
-<style scoped>
-li {
-    color: white;
+
+.title {
+    align-self: center;
 }
+
 </style>
+

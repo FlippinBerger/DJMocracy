@@ -23,6 +23,10 @@ const clicked = () => {
     margin: 16px;
 }
 
+.page {
+    width: 100%;
+}
+
 .controls {
     display: flex;
     flex-direction: column;
@@ -39,9 +43,8 @@ input {
 
 .btn {
     padding: 4px;
-    /* width: 10%; */
     align-self: center;
-    min-width: 25%;
+    min-width: 15%;
 }
 
 @media (min-width: 1024px) {
@@ -51,7 +54,6 @@ input {
     }
     .btn {
         min-width: 5%;
-        width: 10%;
     }
 }
 

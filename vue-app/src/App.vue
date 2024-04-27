@@ -52,9 +52,9 @@ h1 {
 }
 
 header {
-    position: sticky;
-    margin: 8px 8px;
-    align-self: flex-end;
+    position: absolute;
+    top: 8px;
+    right: 8px;
 }
 
 .page {
