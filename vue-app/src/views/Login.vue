@@ -14,19 +14,21 @@ const logIn = async () => {
     try {
         const response = await fetch('http://localhost:1323/login', {
             body: JSON.stringify({
-                username,
-                password,
+                username: username.value,
+                password: password.value,
             }),
+            headers: {
+                "Content-Type": "application/json"
+            },
             method: 'POST',
         })
 
         const data = await response.json();
+        store.logIn(username.value);
 
-        console.log('data after the login POST', data);
-        store.logIn(username.value, password.value);
-        router.push({name: 'home'});
+        router.push({ name: 'home' });
     } catch (err) {
-        console.log('error in the catch is', err);
+        console.log('error logging in', err);
     }
 }
 </script>

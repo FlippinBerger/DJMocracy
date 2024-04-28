@@ -2,21 +2,18 @@ import {defineStore} from 'pinia';
 
 interface State {
     username: string
-    token: string
 }
 
 export const useUsersStore = defineStore({
     id: 'user-store',
-    state: (): State => ({username: '', token: ''}),
+    state: (): State => ({username: ''}),
     actions: {
-        logIn(username: string, token: string) {
+        logIn(username: string) {
             this.username = username;
-            this.token = token;
         },
 
         logOut() {
             this.username = '';
-            this.token = '';
         }
     },
     getters: {
