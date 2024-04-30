@@ -21,14 +21,25 @@ const logIn = async () => {
                 "Content-Type": "application/json"
             },
             method: 'POST',
+            credentials: 'include',
         })
 
+        if (response.status === 401) {
+            // TODO this is unauthorized error from server saying creds were
+            // wrong
+        }
+
+        if (response.status !== 200) {
+            throw new Error("Unable to login");
+        }
+
         const data = await response.json();
-        store.logIn(username.value);
+        store.logIn(data.username);
 
         router.push({ name: 'home' });
     } catch (err) {
         console.log('error logging in', err);
+        // TODO set error states here
     }
 }
 </script>
@@ -38,7 +49,6 @@ const logIn = async () => {
         <form class='form'>
             <input placeholder='Username' v-model="username"></input>
             <input placeholder='Password' type='password' v-model="password"></input>
-            <!-- TODO maybe make this a button again if we can figure out the refresh problem -->
             <button class='btn' type="button" @click='logIn'>Log in</button>
         </form>
     </div>

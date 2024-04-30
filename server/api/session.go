@@ -3,8 +3,9 @@ package api
 import (
     "fmt"
     "net/http"
+
+    "github.com/flippinberger/djmocracy/repo"
 	"github.com/gorilla/sessions"
-    // "time"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo-contrib/session"
 )
@@ -14,11 +15,19 @@ func Register(c echo.Context) error {
     if err := c.Bind(&loginBody); err != nil {
         return echo.NewHTTPError(http.StatusBadRequest, fmt.Sprintf("Unable to parse params: %s", err))
     }
-    fmt.Printf("username: %s pass: %s\n", loginBody.Username, loginBody.Password)
 
     //TODO create new user in db
+    djDB, err := getDB()
+    if err != nil {
+        return err
+    }
 
-    err := addSessionForUserId(c, fmt.Sprintf("%d", getUserID()))
+    userID, err := repo.CreateUser(djDB, loginBody.Username, loginBody.Password)
+    if err != nil {
+        return err
+    }
+
+    err = addSessionForUserId(c, userID)
     if err != nil {
         return echo.NewHTTPError(http.StatusBadRequest, fmt.Sprintf("Couldn't add session in register: %s", err))
     }
@@ -38,6 +47,8 @@ func addSessionForUserId(c echo.Context, userId string) error {
         Path: "/",
         MaxAge: 86400 * 7,
         HttpOnly: true,
+        // TODO do something with SameSite to fix warnings in console
+        // SameSite: ,
         // set secure to true on prod so cookies are only set for https requests
         // Secure: true,
     }
@@ -62,19 +73,28 @@ func LogIn(c echo.Context) error {
     if err := c.Bind(&loginBody); err != nil {
         return echo.NewHTTPError(http.StatusBadRequest, fmt.Sprintf("Unable to parse params: %s", err))
     }
-    fmt.Printf("username: %s pass: %s\n", loginBody.Username, loginBody.Password)
+
+    djDB, err := getDB()
+    if err != nil {
+        return err
+    }
+    user, err := repo.CheckLogin(djDB, loginBody.Username, loginBody.Password)
+    if err != nil {
+        return echo.NewHTTPError(http.StatusUnauthorized, "username or password incorrect")
+    }
 
     //TODO check username/password against the db and get the user
-    err := addSessionForUserId(c, fmt.Sprintf("%d", getUserID()))
+    err = addSessionForUserId(c, user.ID.String())
     if err != nil {
         return echo.NewHTTPError(http.StatusBadRequest, fmt.Sprintf("Couldn't add session in login: %s", err))
     }
 
     return c.JSON(http.StatusOK, LoginResp{
-        Username: loginBody.Username,
+        Username: user.Username,
     })
 }
 
+// TODO do I need to remove the session from the userID <-> sessionID doc in db?
 func LogOut(c echo.Context) error {
     sess, err := session.Get("session", c)
     if err != nil {
@@ -93,11 +113,4 @@ func LogOut(c echo.Context) error {
 	}
 
     return c.String(http.StatusOK, "Logged out")
-}
-
-// getUserID is used to get the next userID from the db, probs just get the one
-// created from the user model though later
-func getUserID() int {
-    // TODO use the db to get the id for the user
-    return 1
 }

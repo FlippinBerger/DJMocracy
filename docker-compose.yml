@@ -1,14 +1,23 @@
 volumes:
   node_modules:
 services:
-  dj-app:
-    build:
-      context: ./vue-app
-        # TODO I think I only needs this when I specify a dev dockerfile
-        # dockerfile: ./app/Dockerfile
+  db:
+    image: mongo
+    container_name: mongodb
+    restart: always
     ports:
-      - "3000:3000"
-      - "24678:24678"
-    volumes:
-      - ./vue-app:/src
-      - ./vue-app/node_modules:/src/node_modules
+      - 27017:27017
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=mongo_user
+      - MONGO_INITDB_ROOT_PASSWORD=pass
+  # dj-app:
+  #   build:
+  #     context: ./vue-app
+  #       # TODO I think I only needs this when I specify a dev dockerfile
+  #       # dockerfile: ./app/Dockerfile
+  #   ports:
+  #     - "3000:3000"
+  #     - "24678:24678"
+  #   volumes:
+  #     - ./vue-app:/src
+  #     - ./vue-app/node_modules:/src/node_modules
