@@ -38,12 +38,17 @@ func main() {
 	e.Use(session.Middleware(sessions.NewCookieStore([]byte("secret"))))
 
 	e.GET("/", func(c echo.Context) error {
-		return c.String(http.StatusOK, "Hello, Nuxt App!")
+		return c.String(http.StatusOK, "Hello, Vue App!")
 	})
 
+    // auth endpoints 
 	e.POST("/signup", api.Register)
 	e.POST("/login", api.LogIn)
 	e.POST("/logout", api.LogOut)
+
+    authedG := e.Group("/api")
+    // authedG.GET("/party", api.GetParty)
+    authedG.POST("/party", api.CreateParty)
 
 	e.Logger.Fatal(e.Start(":1323"))
 }

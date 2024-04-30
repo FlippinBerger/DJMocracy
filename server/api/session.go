@@ -16,7 +16,6 @@ func Register(c echo.Context) error {
         return echo.NewHTTPError(http.StatusBadRequest, fmt.Sprintf("Unable to parse params: %s", err))
     }
 
-    //TODO create new user in db
     djDB, err := getDB()
     if err != nil {
         return err
@@ -53,7 +52,6 @@ func addSessionForUserId(c echo.Context, userId string) error {
         // Secure: true,
     }
 
-    // TODO change this to user.ID from the creds check above
     sess.Values["userID"] = userId
 
     return sess.Save(c.Request(), c.Response())
@@ -83,7 +81,6 @@ func LogIn(c echo.Context) error {
         return echo.NewHTTPError(http.StatusUnauthorized, "username or password incorrect")
     }
 
-    //TODO check username/password against the db and get the user
     err = addSessionForUserId(c, user.ID.String())
     if err != nil {
         return echo.NewHTTPError(http.StatusBadRequest, fmt.Sprintf("Couldn't add session in login: %s", err))
