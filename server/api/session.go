@@ -33,6 +33,7 @@ func Register(c echo.Context) error {
 
     return c.JSON(http.StatusOK, LoginResp{
         Username: loginBody.Username,
+        UserID: userID,
     })
 }
 
@@ -63,6 +64,7 @@ type LoginBody struct {
 }
 
 type LoginResp struct {
+    UserID string `json:"userId"`
     Username string `json:"username"`
 }
 
@@ -87,6 +89,7 @@ func LogIn(c echo.Context) error {
     }
 
     return c.JSON(http.StatusOK, LoginResp{
+        UserID: user.ID.Hex(),
         Username: user.Username,
     })
 }

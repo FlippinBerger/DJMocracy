@@ -10,7 +10,7 @@ const store = useUsersStore();
 
 const router = useRouter();
 
-const logIn = async () => {
+const register = async () => {
     try {
         const response = await fetch('http://localhost:1323/signup', {
             body: JSON.stringify({
@@ -29,7 +29,7 @@ const logIn = async () => {
         }
 
         const data = await response.json();
-        store.logIn(data.username);
+        store.logIn(data.username, data.userId);
 
         router.push({ name: 'home' });
     } catch (err) {
@@ -43,7 +43,7 @@ const logIn = async () => {
         <form class='form'>
             <input placeholder='Username' v-model="username"></input>
             <input placeholder='Password' type='password' v-model="password"></input>
-            <button class='btn' type="button" @click='logIn'>Sign Up</button>
+            <button class='btn' type="button" @click='register'>Sign Up</button>
         </form>
     </div>
 </template>

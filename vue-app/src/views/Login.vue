@@ -34,7 +34,7 @@ const logIn = async () => {
         }
 
         const data = await response.json();
-        store.logIn(data.username);
+        store.logIn(data.username, data.userId);
 
         router.push({ name: 'home' });
     } catch (err) {

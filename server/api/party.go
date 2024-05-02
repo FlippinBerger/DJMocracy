@@ -14,6 +14,10 @@ type Party struct {
     Time time.Time `json:"time"`
     Creator string `json:"creator"`
 }
+
+type CreatePartyRes struct {
+    PartyID string `json:"partyId"`
+}
     
 func CreateParty(c echo.Context) error {
     var party Party
@@ -26,10 +30,12 @@ func CreateParty(c echo.Context) error {
         return err
     }
 
-    err = repo.CreateParty(djDB, party.Name, party.Time, party.Creator)
+    partyId, err := repo.CreateParty(djDB, party.Name, party.Time, party.Creator)
     if err != nil {
         return echo.NewHTTPError(http.StatusBadRequest, fmt.Sprintf("Unable to create Party: %s", err))
     }
 
-    return c.String(http.StatusOK, "Party created")
+    return c.JSON(http.StatusOK, CreatePartyRes{
+        PartyID: partyId,
+    })
 }

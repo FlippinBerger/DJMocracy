@@ -1,21 +1,32 @@
-<script setup>
+<script setup lang="ts">
 import { ref } from 'vue';
 import { useUsersStore } from '@/stores/users';
+import {DateTime as DT} from 'luxon';
 
 const partyName = ref("");
-const partyTime = ref(new Date());
+const partyDate = ref("")
+const partyTime = ref("");
 
 const store = useUsersStore();
 
-const createParty = async () => {
-    // type of partyTime.value is a string
-    console.log(`partyName: ${partyName.value} partyTime: ${partyTime.value} partyTime type: ${typeof (partyTime.value)}`);
+const getPartyTime = (): string => {
+    var datePieces = partyDate.value.split('-').map((s) => +s);
+    var timePieces = partyTime.value.split(':').map((s) => +s);
 
-    const response = await fetch('http://localhost:1323/party', {
+    return DT.local(datePieces[0], datePieces[1], datePieces[2], timePieces[0], timePieces[1]).toUTC().toString();
+}
+
+const createParty = async () => {
+    // simple validation for now, form must be filled out
+    if (partyName.value === '' || partyDate.value === '' || partyTime.value === '') {
+        return;
+    }
+
+    const response = await fetch('http://localhost:1323/api/party', {
         body: JSON.stringify({
             name: partyName.value,
-            time: partyTime.value,
-            creator: store.username,
+            time: getPartyTime(),
+            creator: store.userId,
         }),
         headers: {
             "Content-Type": "application/json"
@@ -25,12 +36,12 @@ const createParty = async () => {
     })
 
     if (response.status === 401) {
-        // TODO this is unauthorized error from server saying creds were
-        // wrong
+        //TODO handle not auth'd
     }
 
     if (response.status !== 200) {
-        throw new Error("Unable to login");
+        // TODO handle all other errors
+        throw new Error("Unable to create party");
     }
 
     const data = await response.json();
@@ -42,8 +53,15 @@ const createParty = async () => {
         <h1>Create Party</h1>
         <form class='form'>
             <input v-model="partyName" placeholder='Event name' />
-            <input type="datetime-local" v-model="partyTime" />
-            <button class='btn' @click="createParty">Create</button>
+
+            <label for='date'>What day is your party?</label>
+            <input type='date' name='date' v-model="partyDate" />
+
+            <label for='time'>What time is your party?</label>
+            <input type='time' name='time' v-model="partyTime" />
+
+            <!-- <input type="datetime-local" v-model="partyTime" /> -->
+            <button type='button' class='btn' @click="createParty">Create</button>
         </form>
     </div>
 </template>
@@ -53,6 +71,11 @@ const createParty = async () => {
     display: flex;
     flex-direction: column;
     gap: 8px;
+}
+
+input {
+    margin-bottom: 16px;
+    padding: 4px;
 }
 
 .btn {

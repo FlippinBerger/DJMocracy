@@ -21,8 +21,8 @@ type Party struct {
     Name string `bson:"name"`
     Time time.Time `bson:"time"`
     Songs []Song `bson:"songs"`
-    Creator string `bson:"creator"`
-    Owners []string `bson:"owners"`
+    Creator primitive.ObjectID `bson:"creator"`
+    Owners []primitive.ObjectID `bson:"owners"`
 }
 
 type Song struct {

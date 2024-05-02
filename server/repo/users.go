@@ -28,7 +28,7 @@ func CreateUser(djDB *db.DJDB, username, password string) (string, error) {
         return "", err
     }
 
-    return user.ID.String(), nil
+    return user.ID.Hex(), nil
 }
 
 func CheckLogin(djDB *db.DJDB, username, password string) (*User, error) {
